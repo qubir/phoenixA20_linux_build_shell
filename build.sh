@@ -1,14 +1,14 @@
 #!/bin/bash
 
-if [ $(basename `pwd`) != "lichee" ] ; then
-    echo "Please run at the top directory of lichee"
+if [ $(basename `pwd`) != "phoenixA20" ] ; then
+    echo "Please run at the top directory of phoenixA20"
     exit 1
 fi
 
 LICHEE_DIR=`pwd`
 UBOOT_DIR="${LICHEE_DIR}/u-boot"
 LINUX_DIR="${LICHEE_DIR}/linux-sunxi"
-OUT_DIR="${LICHEE_DIR}/out"
+OUT_DIR="${LICHEE_DIR}/out/linux/common/"
 PACK_DIR="${LICHEE_DIR}/tools/pack"
 ROOTFS_DIR="${LICHEE_DIR}/rootfs"
 
@@ -35,9 +35,9 @@ build_bootimg()
         echo '*build boot.img fail'
         exit 1
     fi
-    mv boot.img ${OUT_DIR}/linux/common/
+    mv boot.img ${OUT_DIR}
 
-pack_info "Finish build boot.img"	
+    pack_info "Finish build boot.img"	
 }
 
 build_kernel()
@@ -58,6 +58,7 @@ build_uboot()
 {
     pack_info "Start compile u-boot"
     make distclean && make sun7i CROSS_COMPILE=arm-linux-gnueabihf-
+    cp u-boot.bin ${OUT_DIR}
     pack_info "Finish compile u-boot"
 }
 
