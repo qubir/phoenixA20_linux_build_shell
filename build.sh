@@ -10,7 +10,7 @@ UBOOT_DIR="${LICHEE_DIR}/u-boot"
 LINUX_DIR="${LICHEE_DIR}/linux-sunxi"
 OUT_DIR="${LICHEE_DIR}/out"
 PACK_DIR="${LICHEE_DIR}/tools/pack"
-
+ROOTFS_DIR="${LICHEE_DIR}/rootfs"
 
 function pack_info()
 {
@@ -72,6 +72,9 @@ build_uboot
 cd ${LINUX_DIR}
 build_kernel
 build_bootimg
+
+cd ${ROOTFS_DIR}
+sudo make -C ${LINUX_DIR} INSTALL_MOD_PATH=`pwd` ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules_install
 
 cd ${PACK_DIR}
 ./pack
